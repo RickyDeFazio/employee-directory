@@ -2,7 +2,6 @@ const $gallery = $('#gallery');
 const arrayOfData = [];
 
 
-
 /**
  * Universal Fetch & Parse Function for Data
  * @param {string} url 
@@ -11,17 +10,37 @@ const arrayOfData = [];
 
 function fetchData(url) {
   return fetch(url)
-    .then(response => response.json());
+    .then(checkStatus)
+    .then(response => response.json())
+    .catch(error => console.log(error));
 }
+
+/**
+ * Request data from API 12 times to obtain 12 users.
+ */
 
 for (let i = 0; i < 12; i++){
   let test = fetchData('https://randomuser.me/api/');
   arrayOfData.push(test);
 }
 
+
+
+function checkStatus(response){
+  if (response.ok) {
+    return Promise.resolve(response);
+  } else {
+    return Promise.reject(new Error(response.statusText));
+  }
+}
+
+
+/**
+ * 
+ */
+
 Promise.all(arrayOfData)
   .then(data => data.forEach(index => {
-    console.log(index.results[0]);
     $cardDiv = $('<div></div>');
     $cardDiv.addClass('card');
     $gallery.append($cardDiv);
