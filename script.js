@@ -1,5 +1,4 @@
 const $gallery = $('#gallery');
-const arrayOfData = [];
 
 
 /**
@@ -15,14 +14,6 @@ function fetchData(url) {
     .catch(error => console.log(error));
 }
 
-/**
- * Request data from API 12 times to obtain 12 users.
- */
-
-for (let i = 0; i < 12; i++){
-  let test = fetchData('https://randomuser.me/api/');
-  arrayOfData.push(test);
-}
 
 /**
  * Evaluates response to determine if there are any errors
@@ -43,8 +34,8 @@ function checkStatus(response){
  * 
  */
 
-Promise.all(arrayOfData)
-  .then(data => data.forEach(index => {
+fetchData('https://randomuser.me/api/?results=12')
+  .then(data => data.results.forEach(result => {
     $cardDiv = $('<div></div>');
     $cardDiv.addClass('card');
     $gallery.append($cardDiv);
@@ -55,7 +46,7 @@ Promise.all(arrayOfData)
 
     $img = $('<img>');
     $img.addClass('card-img');
-    $img.attr('src', index.results[0].picture.medium);
+    $img.attr('src', result.picture.medium);
     $img.attr('alt', 'profile picture');
     $cardImgContainer.append($img);
 
@@ -66,16 +57,47 @@ Promise.all(arrayOfData)
     $h3_cardname = $('<h3></h3>');
     $h3_cardname.attr('id', 'name');
     $h3_cardname.addClass('card-name cap');
-    $h3_cardname.text(index.results[0].name.first + ' ' + index.results[0].name.last);
+    $h3_cardname.text(result.name.first + ' ' + result.name.last);
     $cardInfoContainer.append($h3_cardname);
 
     $p_email = $('<p></p>');
     $p_email.addClass('card-text');
-    $p_email.text(index.results[0].email);
+    $p_email.text(result.email);
     $cardInfoContainer.append($p_email);
 
     $p_location = $('<p></p>');
     $p_location.addClass('card-text cap');
-    $p_location.text(index.results[0].location.city + ', ' + index.results[0].location.state);
+    $p_location.text(result.location.city + ', ' + result.location.state);
     $cardInfoContainer.append($p_location);
   }));
+
+
+  $gallery.on('click', 'div.card', (e) => {
+    $modalContainerDiv = $('<div></div>');
+    $modalContainerDiv.addClass('modal-container');
+    $gallery.after($modalContainerDiv);
+
+    $modalDiv = $('<div></div>');
+    $modalDiv.addClass('modal');
+    $modalContainerDiv.append($modalDiv);
+
+    $buttonModalClose = $('<button></button>');
+    $buttonModalClose.attr('type', 'button');
+    $buttonModalClose.attr('id', 'modal-close-btn');
+    $buttonModalClose.addClass('modal-close-btn');
+    $modalDiv.append($buttonModalClose);
+
+    $strongTag = $('<strong></strong>');
+    $strongTag.text('X');
+    $buttonModalClose.append($strongTag);
+
+    $modalInfoDiv = $('<div></div>');
+    $modalInfoDiv.addClass('modal-info-container');
+    $modalDiv.append($modalInfoDiv);
+
+    $modalImg = $('<img>');
+    $modalImg.addClass('modal-img');
+    $modalImg.attr('src', e.target.src);
+    $modalImg.attr('alt', 'profile picture');
+    $modalInfoDiv.append($modalImg);
+  })
