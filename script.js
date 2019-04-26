@@ -24,7 +24,11 @@ for (let i = 0; i < 12; i++){
   arrayOfData.push(test);
 }
 
-
+/**
+ * Evaluates response to determine if there are any errors
+ * @param {promise} response 
+ * Returns a promise.
+ */
 
 function checkStatus(response){
   if (response.ok) {
