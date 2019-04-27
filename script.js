@@ -75,73 +75,80 @@ fetchData('https://randomuser.me/api/?results=12')
   }));
 
 
-  $gallery.on('click', 'div.card', (e) => {
-    $modalContainerDiv = $('<div></div>');
-    $modalContainerDiv.addClass('modal-container');
-    $gallery.after($modalContainerDiv);
+$gallery.on('click', 'div.card', (e) => {
+  $modalContainerDiv = $('<div></div>');
+  $modalContainerDiv.addClass('modal-container');
+  $gallery.after($modalContainerDiv);
 
-    $modalDiv = $('<div></div>');
-    $modalDiv.addClass('modal');
-    $modalContainerDiv.append($modalDiv);
+  $modalDiv = $('<div></div>');
+  $modalDiv.addClass('modal');
+  $modalContainerDiv.append($modalDiv);
 
-    $buttonModalClose = $('<button></button>');
-    $buttonModalClose.attr('type', 'button');
-    $buttonModalClose.attr('id', 'modal-close-btn');
-    $buttonModalClose.addClass('modal-close-btn');
-    $modalDiv.append($buttonModalClose);
+  $buttonModalClose = $('<button></button>');
+  $buttonModalClose.attr('type', 'button');
+  $buttonModalClose.attr('id', 'modal-close-btn');
+  $buttonModalClose.addClass('modal-close-btn');
+  $modalDiv.append($buttonModalClose);
 
-    $strongTag = $('<strong></strong>');
-    $strongTag.text('X');
-    $buttonModalClose.append($strongTag);
+  $strongTag = $('<strong></strong>');
+  $strongTag.text('X');
+  $buttonModalClose.append($strongTag);
 
-    $modalInfoDiv = $('<div></div>');
-    $modalInfoDiv.addClass('modal-info-container');
-    $modalDiv.append($modalInfoDiv);
+  $modalInfoDiv = $('<div></div>');
+  $modalInfoDiv.addClass('modal-info-container');
+  $modalDiv.append($modalInfoDiv);
 
-    $modalImg = $('<img>');
-    $modalImg.addClass('modal-img');
-    $modalImg.attr('src', globalArray[$(e.currentTarget).index()].picture.large);
-    $modalImg.attr('alt', 'profile picture');
-    $modalInfoDiv.append($modalImg);
+  $modalImg = $('<img>');
+  $modalImg.addClass('modal-img');
+  $modalImg.attr('src', globalArray[$(e.currentTarget).index()].picture.large);
+  $modalImg.attr('alt', 'profile picture');
+  $modalInfoDiv.append($modalImg);
 
-    $h3_modalName = $('<h3></h3>');
-    $h3_modalName.attr('id', 'name');
-    $h3_modalName.addClass('modal-name cap');
-    $h3_modalName.text(globalArray[$(e.currentTarget).index()].name.first + ' ' + globalArray[$(e.currentTarget).index()].name.last);
-    $modalInfoDiv.append($h3_modalName);
+  $h3_modalName = $('<h3></h3>');
+  $h3_modalName.attr('id', 'name');
+  $h3_modalName.addClass('modal-name cap');
+  $h3_modalName.text(globalArray[$(e.currentTarget).index()].name.first + ' ' + globalArray[$(e.currentTarget).index()].name.last);
+  $modalInfoDiv.append($h3_modalName);
 
-    $p_email = $('<p></p>');
-    $p_email.addClass('modal-text');
-    $p_email.text(globalArray[$(e.currentTarget).index()].email);
-    $modalInfoDiv.append($p_email);
+  $p_email = $('<p></p>');
+  $p_email.addClass('modal-text');
+  $p_email.text(globalArray[$(e.currentTarget).index()].email);
+  $modalInfoDiv.append($p_email);
 
-    $p_city = $('<p></p>');
-    $p_city.addClass('modal-text cap');
-    $p_city.text(globalArray[$(e.currentTarget).index()].location.city);
-    $modalInfoDiv.append($p_city);
+  $p_city = $('<p></p>');
+  $p_city.addClass('modal-text cap');
+  $p_city.text(globalArray[$(e.currentTarget).index()].location.city);
+  $modalInfoDiv.append($p_city);
 
-    $hr = $('<hr>');
-    $modalInfoDiv.append($hr);
+  $hr = $('<hr>');
+  $modalInfoDiv.append($hr);
 
-    $p_phone = $('<p></p>');
-    $p_phone.addClass('modal-text');
-    $p_phone.text(globalArray[$(e.currentTarget).index()].phone);
-    $modalInfoDiv.append($p_phone);
+  $p_phone = $('<p></p>');
+  $p_phone.addClass('modal-text');
+  $p_phone.text(globalArray[$(e.currentTarget).index()].phone);
+  $modalInfoDiv.append($p_phone);
 
-    $p_address = $('<p></p>');
-    $p_address.addClass('modal-text');
-    $p_address.html(globalArray[$(e.currentTarget).index()].location.street + '.,<br>' + globalArray[$(e.currentTarget).index()].location.city + ', ' + globalArray[$(e.currentTarget).index()].location.state + ' ' + globalArray[$(e.currentTarget).index()].location.postcode);
-    $modalInfoDiv.append($p_address);
+  $p_address = $('<p></p>');
+  $p_address.addClass('modal-text cap');
+  $p_address.html(globalArray[$(e.currentTarget).index()].location.street + '.,<br>' + globalArray[$(e.currentTarget).index()].location.city + ', ' + globalArray[$(e.currentTarget).index()].location.state + ' ' + globalArray[$(e.currentTarget).index()].location.postcode);
+  $modalInfoDiv.append($p_address);
 
-    $p_birthday = $('<p></p>');
-    $p_birthday.addClass('modal-text');
-    $p_birthday.text(globalArray[$(e.currentTarget).index()].dob.date);
-    $modalInfoDiv.append($p_birthday);
+  $p_birthday = $('<p></p>');
+  $p_birthday.addClass('modal-text');
+  $p_birthday.text("Birthday: " + globalArray[$(e.currentTarget).index()].dob.date);
+  $modalInfoDiv.append($p_birthday);
 
-    console.log(globalArray[$(e.currentTarget).index()])
-  })
+  $modalCloseBtn = $('#modal-close-btn');
+  $modalCloseBtn.on('click', closeModal);
 
+  console.log(globalArray[$(e.currentTarget).index()])
+  });
+
+
+function closeModal(){
+  $modalContainerDiv.remove();
+}
   /**
    * Format information in the modal to match HTML template format
-   * 
+   * Complete Extra Credit
    */
