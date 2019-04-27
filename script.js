@@ -100,7 +100,48 @@ fetchData('https://randomuser.me/api/?results=12')
 
     $modalImg = $('<img>');
     $modalImg.addClass('modal-img');
-    // $modalImg.attr('src', globalArray[]); // don't know how to access the correct value using the event
+    $modalImg.attr('src', globalArray[$(e.currentTarget).index()].picture.large);
     $modalImg.attr('alt', 'profile picture');
     $modalInfoDiv.append($modalImg);
+
+    $h3_modalName = $('<h3></h3>');
+    $h3_modalName.attr('id', 'name');
+    $h3_modalName.addClass('modal-name cap');
+    $h3_modalName.text(globalArray[$(e.currentTarget).index()].name.first + ' ' + globalArray[$(e.currentTarget).index()].name.last);
+    $modalInfoDiv.append($h3_modalName);
+
+    $p_email = $('<p></p>');
+    $p_email.addClass('modal-text');
+    $p_email.text(globalArray[$(e.currentTarget).index()].email);
+    $modalInfoDiv.append($p_email);
+
+    $p_city = $('<p></p>');
+    $p_city.addClass('modal-text cap');
+    $p_city.text(globalArray[$(e.currentTarget).index()].location.city);
+    $modalInfoDiv.append($p_city);
+
+    $hr = $('<hr>');
+    $modalInfoDiv.append($hr);
+
+    $p_phone = $('<p></p>');
+    $p_phone.addClass('modal-text');
+    $p_phone.text(globalArray[$(e.currentTarget).index()].phone);
+    $modalInfoDiv.append($p_phone);
+
+    $p_address = $('<p></p>');
+    $p_address.addClass('modal-text');
+    $p_address.html(globalArray[$(e.currentTarget).index()].location.street + '.,<br>' + globalArray[$(e.currentTarget).index()].location.city + ', ' + globalArray[$(e.currentTarget).index()].location.state + ' ' + globalArray[$(e.currentTarget).index()].location.postcode);
+    $modalInfoDiv.append($p_address);
+
+    $p_birthday = $('<p></p>');
+    $p_birthday.addClass('modal-text');
+    $p_birthday.text(globalArray[$(e.currentTarget).index()].dob.date);
+    $modalInfoDiv.append($p_birthday);
+
+    console.log(globalArray[$(e.currentTarget).index()])
   })
+
+  /**
+   * Format information in the modal to match HTML template format
+   * 
+   */
