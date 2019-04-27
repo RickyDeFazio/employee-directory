@@ -1,11 +1,12 @@
 const $gallery = $('#gallery');
-
+const globalArray = [];
 
 /**
  * Universal Fetch & Parse Function for Data
  * @param {string} url 
  * Returns a promise.
  */
+
 
 function fetchData(url) {
   return fetch(url)
@@ -36,6 +37,8 @@ function checkStatus(response){
 
 fetchData('https://randomuser.me/api/?results=12')
   .then(data => data.results.forEach(result => {
+    globalArray.push(result);
+
     $cardDiv = $('<div></div>');
     $cardDiv.addClass('card');
     $gallery.append($cardDiv);
@@ -97,7 +100,7 @@ fetchData('https://randomuser.me/api/?results=12')
 
     $modalImg = $('<img>');
     $modalImg.addClass('modal-img');
-    $modalImg.attr('src', e.target.src);
+    // $modalImg.attr('src', globalArray[]); // don't know how to access the correct value using the event
     $modalImg.attr('alt', 'profile picture');
     $modalInfoDiv.append($modalImg);
   })
