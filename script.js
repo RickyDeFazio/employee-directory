@@ -30,6 +30,29 @@ function checkStatus(response){
   }
 }
 
+function isValidCell(number) {
+  return /^\D*\d{3}\D*\d{3}\D*\d{4}\D*$/.test(number);
+}
+
+
+function formatCell(number) {
+  const expression = /^\D*(\d{3})\D*(\d{3})\D*(\d{4})\D*$/;
+  return number.replace(expression, "($1) $2-$3");
+}
+
+function isValidDOB(date){
+  return /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(date);
+}
+
+function formatDOB(date){
+  const expression = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])).*/;
+  const cleanDate = date.replace(expression, '$1');
+  const expression2 = /(\d{4})-(\d{2})-(\d{2})/;
+  const finalDate = cleanDate.replace(expression2, '$2/$3/$1');
+  return finalDate;
+}
+
+
 
 /**
  * 
@@ -72,7 +95,7 @@ fetchData('https://randomuser.me/api/?results=12')
     $p_location.addClass('card-text cap');
     $p_location.text(result.location.city + ', ' + result.location.state);
     $cardInfoContainer.append($p_location);
-  }));
+  })); // End FetchData
 
 
 $gallery.on('click', 'div.card', (e) => {
@@ -125,7 +148,11 @@ $gallery.on('click', 'div.card', (e) => {
 
   $p_phone = $('<p></p>');
   $p_phone.addClass('modal-text');
-  $p_phone.text(globalArray[$(e.currentTarget).index()].phone);
+  if (isValidCell(globalArray[$(e.currentTarget).index()].cell)){
+    $p_phone.text(formatCell(globalArray[$(e.currentTarget).index()].cell));
+  } else {
+    $p_phone.text("No Valid Number Given");
+  }
   $modalInfoDiv.append($p_phone);
 
   $p_address = $('<p></p>');
@@ -135,14 +162,19 @@ $gallery.on('click', 'div.card', (e) => {
 
   $p_birthday = $('<p></p>');
   $p_birthday.addClass('modal-text');
-  $p_birthday.text("Birthday: " + globalArray[$(e.currentTarget).index()].dob.date);
+  if (isValidDOB(globalArray[$(e.currentTarget).index()].dob.date)) {
+    $p_birthday.text("Birthday: " + formatDOB(globalArray[$(e.currentTarget).index()].dob.date));
+  } else {
+    $p_birthday.text("No Valid Birthday Given");
+  }
+  
   $modalInfoDiv.append($p_birthday);
 
   $modalCloseBtn = $('#modal-close-btn');
   $modalCloseBtn.on('click', closeModal);
 
   console.log(globalArray[$(e.currentTarget).index()])
-  });
+  }); // End Event Listener
 
 
 function closeModal(){
