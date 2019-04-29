@@ -1,13 +1,12 @@
 const $gallery = $('#gallery');
 const globalArray = [];
 
+
 /**
  * Universal Fetch & Parse Function for Data
  * @param {string} url 
  * Returns a promise.
  */
-
-
 function fetchData(url) {
   return fetch(url)
     .then(checkStatus)
@@ -21,7 +20,6 @@ function fetchData(url) {
  * @param {promise} response 
  * Returns a promise.
  */
-
 function checkStatus(response){
   if (response.ok) {
     return Promise.resolve(response);
@@ -30,20 +28,39 @@ function checkStatus(response){
   }
 }
 
+
+/**
+ * Checks number to see if it is valid.
+ * @param {string} number 
+ */
 function isValidCell(number) {
   return /^\D*\d{3}\D*\d{3}\D*\d{4}\D*$/.test(number);
 }
 
 
+/**
+ * Reformats number to: (555) 555-5555
+ * @param {string} number 
+ */
 function formatCell(number) {
   const expression = /^\D*(\d{3})\D*(\d{3})\D*(\d{4})\D*$/;
   return number.replace(expression, "($1) $2-$3");
 }
 
+
+/**
+ * Checks date to see if it is valid.
+ * @param {string} date 
+ */
 function isValidDOB(date){
   return /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(date);
 }
 
+
+/**
+ * Reformats date to: month/day/year
+ * @param {string} date 
+ */
 function formatDOB(date){
   const expression = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])).*/;
   const cleanDate = date.replace(expression, '$1');
@@ -53,11 +70,9 @@ function formatDOB(date){
 }
 
 
-
 /**
  * 
  */
-
 fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(data => data.results.forEach(result => {
     globalArray.push(result);
@@ -99,7 +114,9 @@ fetchData('https://randomuser.me/api/?nat=us&results=12')
 
 
 
-
+/**
+ * 
+ */
 $gallery.on('click', 'div.card', (e) => {
   $modalContainerDiv = $('<div></div>');
   $modalContainerDiv.addClass('modal-container');
@@ -179,6 +196,9 @@ $gallery.on('click', 'div.card', (e) => {
   }); // End Event Listener
 
 
+/**
+ * Closes modal.
+ */
 function closeModal(){
   $modalContainerDiv.remove();
 }
