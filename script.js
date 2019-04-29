@@ -58,7 +58,7 @@ function formatDOB(date){
  * 
  */
 
-fetchData('https://randomuser.me/api/?results=12')
+fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(data => data.results.forEach(result => {
     globalArray.push(result);
 
@@ -96,6 +96,8 @@ fetchData('https://randomuser.me/api/?results=12')
     $p_location.text(result.location.city + ', ' + result.location.state);
     $cardInfoContainer.append($p_location);
   })); // End FetchData
+
+
 
 
 $gallery.on('click', 'div.card', (e) => {
@@ -180,7 +182,54 @@ $gallery.on('click', 'div.card', (e) => {
 function closeModal(){
   $modalContainerDiv.remove();
 }
-  /**
-   * Format information in the modal to match HTML template format
-   * Complete Extra Credit
-   */
+
+
+/**
+ * Search Functionality
+ */
+const $searchBar = $('.search-container');
+const $form = $('<form></form>');
+$form.attr('action', '#');
+$searchBar.append($form);
+const $input = $('<input>');
+$input.attr('type', 'search');
+$input.attr('id', 'search-input');
+$input.addClass('search-input');
+$input.attr('placeholder', 'Search...');
+$form.append($input);
+const $inputBtn = $('<input>');
+$inputBtn.attr('type', 'submit');
+$inputBtn.val('Search');
+$inputBtn.attr('id', 'search-submit');
+$inputBtn.addClass('search-submit');
+$form.append($inputBtn);
+
+
+const employeesFound = [];
+function searchDirectory(employees){
+  for (let i = 0; i < employees.length; i++) {
+    if ( employees[i].name.first.toLowerCase().includes($input.val().toLowerCase())|| employees[i].name.last.toLowerCase().includes($input.val().toLowerCase()) ) {
+      employeesFound.push(employees[i]);
+    } else {
+      console.log('Not Found')
+    }
+  }
+  console.log(employeesFound.length)
+
+}
+
+
+function showResults(list) {
+  for (let i = 0; i < list.length; i++) {
+  }
+}
+
+
+$inputBtn.on('click', () => {
+  searchDirectory(globalArray);
+});
+
+/**
+ * Need to make code more modular
+ * Implement Search Functionality based on Project 2 for inspiration
+ */
