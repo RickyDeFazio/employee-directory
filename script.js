@@ -70,54 +70,66 @@ function formatDOB(date){
 }
 
 
-/**
- * 
- */
+
 fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(data => data.results.forEach(result => {
     globalArray.push(result);
+  }))
+  .then(resolve => createCards(globalArray));  
 
-    $cardDiv = $('<div></div>');
+
+
+function createCards(data){
+  data.forEach(person => {
+    const $cardDiv = $('<div></div>');
     $cardDiv.addClass('card');
     $gallery.append($cardDiv);
 
-    $cardImgContainer = $('<div></div>');
+    const $cardImgContainer = $('<div></div>');
     $cardImgContainer.addClass('card-img-container');
     $cardDiv.append($cardImgContainer);
 
-    $img = $('<img>');
+    const $img = $('<img>');
     $img.addClass('card-img');
-    $img.attr('src', result.picture.medium);
+    $img.attr('src', person.picture.medium);
     $img.attr('alt', 'profile picture');
     $cardImgContainer.append($img);
 
-    $cardInfoContainer = $('<div></div>');
+    const $cardInfoContainer = $('<div></div>');
     $cardInfoContainer.addClass('card-info-container');
     $cardDiv.append($cardInfoContainer);
 
-    $h3_cardname = $('<h3></h3>');
+    const $h3_cardname = $('<h3></h3>');
     $h3_cardname.attr('id', 'name');
     $h3_cardname.addClass('card-name cap');
-    $h3_cardname.text(result.name.first + ' ' + result.name.last);
+    $h3_cardname.text(person.name.first + ' ' + person.name.last);
     $cardInfoContainer.append($h3_cardname);
 
-    $p_email = $('<p></p>');
+    const $p_email = $('<p></p>');
     $p_email.addClass('card-text');
-    $p_email.text(result.email);
+    $p_email.text(person.email);
     $cardInfoContainer.append($p_email);
 
-    $p_location = $('<p></p>');
+    const $p_location = $('<p></p>');
     $p_location.addClass('card-text cap');
-    $p_location.text(result.location.city + ', ' + result.location.state);
+    $p_location.text(person.location.city + ', ' + person.location.state);
     $cardInfoContainer.append($p_location);
-  })); // End FetchData
+  })
+}
 
-
+/**
+ * Closes modal.
+ */
+function closeModal(){
+  $modalContainerDiv.remove();
+}
 
 /**
  * 
  */
 $gallery.on('click', 'div.card', (e) => {
+  const currentIndex = globalArray[$(e.currentTarget).index()];
+  
   $modalContainerDiv = $('<div></div>');
   $modalContainerDiv.addClass('modal-container');
   $gallery.after($modalContainerDiv);
@@ -142,24 +154,24 @@ $gallery.on('click', 'div.card', (e) => {
 
   $modalImg = $('<img>');
   $modalImg.addClass('modal-img');
-  $modalImg.attr('src', globalArray[$(e.currentTarget).index()].picture.large);
+  $modalImg.attr('src', currentIndex.picture.large);
   $modalImg.attr('alt', 'profile picture');
   $modalInfoDiv.append($modalImg);
 
   $h3_modalName = $('<h3></h3>');
   $h3_modalName.attr('id', 'name');
   $h3_modalName.addClass('modal-name cap');
-  $h3_modalName.text(globalArray[$(e.currentTarget).index()].name.first + ' ' + globalArray[$(e.currentTarget).index()].name.last);
+  $h3_modalName.text(currentIndex.name.first + ' ' + currentIndex.name.last);
   $modalInfoDiv.append($h3_modalName);
 
   $p_email = $('<p></p>');
   $p_email.addClass('modal-text');
-  $p_email.text(globalArray[$(e.currentTarget).index()].email);
+  $p_email.text(currentIndex.email);
   $modalInfoDiv.append($p_email);
 
   $p_city = $('<p></p>');
   $p_city.addClass('modal-text cap');
-  $p_city.text(globalArray[$(e.currentTarget).index()].location.city);
+  $p_city.text(currentIndex.location.city);
   $modalInfoDiv.append($p_city);
 
   $hr = $('<hr>');
@@ -167,8 +179,8 @@ $gallery.on('click', 'div.card', (e) => {
 
   $p_phone = $('<p></p>');
   $p_phone.addClass('modal-text');
-  if (isValidCell(globalArray[$(e.currentTarget).index()].cell)){
-    $p_phone.text(formatCell(globalArray[$(e.currentTarget).index()].cell));
+  if (isValidCell(currentIndex.cell)){
+    $p_phone.text(formatCell(currentIndex.cell));
   } else {
     $p_phone.text("No Valid Number Given");
   }
@@ -176,13 +188,13 @@ $gallery.on('click', 'div.card', (e) => {
 
   $p_address = $('<p></p>');
   $p_address.addClass('modal-text cap');
-  $p_address.html(globalArray[$(e.currentTarget).index()].location.street + '.,<br>' + globalArray[$(e.currentTarget).index()].location.city + ', ' + globalArray[$(e.currentTarget).index()].location.state + ' ' + globalArray[$(e.currentTarget).index()].location.postcode);
+  $p_address.html(currentIndex.location.street + '.,<br>' + currentIndex.location.city + ', ' + currentIndex.location.state + ' ' + currentIndex.location.postcode);
   $modalInfoDiv.append($p_address);
 
   $p_birthday = $('<p></p>');
   $p_birthday.addClass('modal-text');
-  if (isValidDOB(globalArray[$(e.currentTarget).index()].dob.date)) {
-    $p_birthday.text("Birthday: " + formatDOB(globalArray[$(e.currentTarget).index()].dob.date));
+  if (isValidDOB(currentIndex.dob.date)) {
+    $p_birthday.text("Birthday: " + formatDOB(currentIndex.dob.date));
   } else {
     $p_birthday.text("No Valid Birthday Given");
   }
@@ -191,17 +203,8 @@ $gallery.on('click', 'div.card', (e) => {
 
   $modalCloseBtn = $('#modal-close-btn');
   $modalCloseBtn.on('click', closeModal);
-
-  console.log(globalArray[$(e.currentTarget).index()])
   }); // End Event Listener
 
-
-/**
- * Closes modal.
- */
-function closeModal(){
-  $modalContainerDiv.remove();
-}
 
 
 /**
@@ -235,21 +238,9 @@ function searchDirectory(employees){
     }
   }
   console.log(employeesFound.length)
-
-}
-
-
-function showResults(list) {
-  for (let i = 0; i < list.length; i++) {
-  }
 }
 
 
 $inputBtn.on('click', () => {
-  searchDirectory(globalArray);
+  searchDirectory(cards);
 });
-
-/**
- * Need to make code more modular
- * Implement Search Functionality based on Project 2 for inspiration
- */
