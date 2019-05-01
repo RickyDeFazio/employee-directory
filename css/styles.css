@@ -229,6 +229,8 @@ header h1 {
 
     .header-text-container {
         text-align: left;
+        text-shadow: 2px 2px lightgrey;
+        font-size: 2em;
     }
 
     .search-container {

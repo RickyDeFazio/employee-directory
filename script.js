@@ -157,91 +157,91 @@ function createCards(data){
  * Used JQUERY to implement modal 
  */
 $gallery.on('click', 'div.card', (e) => {
-  const currentIndex = arrayOfData[$(e.currentTarget).index()];
-  
+  currentIndex = [$(e.currentTarget).index()];
+  selectedEmployee = arrayOfData[currentIndex];  
   $modalContainerDiv = $('<div></div>');
   $modalContainerDiv.addClass('modal-container');
   $gallery.after($modalContainerDiv);
 
-  const $modalDiv = $('<div></div>');
+  $modalDiv = $('<div></div>');
   $modalDiv.addClass('modal');
   $modalContainerDiv.append($modalDiv);
 
-  const $buttonModalClose = $('<button></button>');
+  $buttonModalClose = $('<button></button>');
   $buttonModalClose.attr('type', 'button');
   $buttonModalClose.attr('id', 'modal-close-btn');
   $buttonModalClose.addClass('modal-close-btn');
   $modalDiv.append($buttonModalClose);
 
-  const $strongTag = $('<strong></strong>');
+  $strongTag = $('<strong></strong>');
   $strongTag.text('X');
   $buttonModalClose.append($strongTag);
 
-  const $modalInfoDiv = $('<div></div>');
+  $modalInfoDiv = $('<div></div>');
   $modalInfoDiv.addClass('modal-info-container');
   $modalDiv.append($modalInfoDiv);
 
-  const $modalImg = $('<img>');
+  $modalImg = $('<img>');
   $modalImg.addClass('modal-img');
-  $modalImg.attr('src', currentIndex.picture.large);
+  $modalImg.attr('src', selectedEmployee.picture.large);
   $modalImg.attr('alt', 'profile picture');
   $modalInfoDiv.append($modalImg);
 
-  const $h3_modalName = $('<h3></h3>');
+  $h3_modalName = $('<h3></h3>');
   $h3_modalName.attr('id', 'name');
   $h3_modalName.addClass('modal-name cap');
-  $h3_modalName.text(currentIndex.name.first + ' ' + currentIndex.name.last);
+  $h3_modalName.text(selectedEmployee.name.first + ' ' + selectedEmployee.name.last);
   $modalInfoDiv.append($h3_modalName);
 
-  const $p_email = $('<p></p>');
+  $p_email = $('<p></p>');
   $p_email.addClass('modal-text');
-  $p_email.text(currentIndex.email);
+  $p_email.text(selectedEmployee.email);
   $modalInfoDiv.append($p_email);
 
-  const $p_city = $('<p></p>');
+  $p_city = $('<p></p>');
   $p_city.addClass('modal-text cap');
-  $p_city.text(currentIndex.location.city);
+  $p_city.text(selectedEmployee.location.city);
   $modalInfoDiv.append($p_city);
 
-  const $hr = $('<hr>');
+  $hr = $('<hr>');
   $modalInfoDiv.append($hr);
 
-  const $p_phone = $('<p></p>');
+  $p_phone = $('<p></p>');
   $p_phone.addClass('modal-text');
-  if (isValidCell(currentIndex.cell)){
-    $p_phone.text(formatCell(currentIndex.cell));
+  if (isValidCell(selectedEmployee.cell)){
+    $p_phone.text(formatCell(selectedEmployee.cell));
   } else {
     $p_phone.text("No Valid Number Given");
   }
   $modalInfoDiv.append($p_phone);
 
-  const $p_address = $('<p></p>');
+  $p_address = $('<p></p>');
   $p_address.addClass('modal-text cap');
-  $p_address.html(currentIndex.location.street + '.,<br>' + currentIndex.location.city + ', ' + currentIndex.location.state + ' ' + currentIndex.location.postcode);
+  $p_address.html(selectedEmployee.location.street + '.,<br>' + selectedEmployee.location.city + ', ' + selectedEmployee.location.state + ' ' + selectedEmployee.location.postcode);
   $modalInfoDiv.append($p_address);
 
-  const $p_birthday = $('<p></p>');
+  $p_birthday = $('<p></p>');
   $p_birthday.addClass('modal-text');
-  if (isValidDOB(currentIndex.dob.date)) {
-    $p_birthday.text("Birthday: " + formatDOB(currentIndex.dob.date));
+  if (isValidDOB(selectedEmployee.dob.date)) {
+    $p_birthday.text("Birthday: " + formatDOB(selectedEmployee.dob.date));
   } else {
     $p_birthday.text("No Valid Birthday Given");
   }
   
   $modalInfoDiv.append($p_birthday);
 
-  const $modalBtnContainer = $('<div></div>');
+  $modalBtnContainer = $('<div></div>');
   $modalBtnContainer.addClass('modal-btn-container');
   $modalContainerDiv.append($modalBtnContainer);
 
-  const $modalPrev = $('<button></button>');
+  $modalPrev = $('<button></button>');
   $modalPrev.attr('type', 'button');
   $modalPrev.attr('id', 'modal-prev');
   $modalPrev.addClass('modal-prev btn');
   $modalPrev.text('Prev');
   $modalBtnContainer.append($modalPrev);
 
-  const $modalNext = $('<button></button>');
+  $modalNext = $('<button></button>');
   $modalNext.attr('type', 'button');
   $modalNext.attr('id', 'modal-next');
   $modalNext.addClass('modal-next btn');
@@ -257,12 +257,13 @@ $gallery.on('click', 'div.card', (e) => {
 
 
 function cyclePrev() {
-  
+  $modalImg.attr('src', arrayOfData[currentIndex-1].picture.large);
 }
 
 
 function cycleNext() {
-  
+  nextEmployee = arrayOfData[currentIndex+1];
+  $modalImg.attr('src', nextEmployee.picture.large);
 }
 
 
