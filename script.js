@@ -1,5 +1,6 @@
+const gallery = document.querySelector('#gallery');
 const $gallery = $('#gallery');
-const globalArray = [];
+const arrayOfData = [];
 
 
 /**
@@ -73,47 +74,48 @@ function formatDOB(date){
 
 fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(data => data.results.forEach(result => {
-    globalArray.push(result);
+    arrayOfData.push(result);
   }))
-  .then(resolve => createCards(globalArray));  
+  .then(resolve => createCards(arrayOfData));  
+
+
+
+function createElement(elementName, property, value) {
+  const element = document.createElement(elementName);
+  element[property] = value;
+  return element;
+}
 
 
 
 function createCards(data){
   data.forEach(person => {
-    const $cardDiv = $('<div></div>');
-    $cardDiv.addClass('card');
-    $gallery.append($cardDiv);
+    const cardDiv = createElement('div', 'className', 'card');
+    gallery.appendChild(cardDiv);
 
-    const $cardImgContainer = $('<div></div>');
-    $cardImgContainer.addClass('card-img-container');
-    $cardDiv.append($cardImgContainer);
+    const cardImgContainer = createElement('div', 'className', 'card-img-container');
+    cardDiv.appendChild(cardImgContainer);
 
-    const $img = $('<img>');
-    $img.addClass('card-img');
-    $img.attr('src', person.picture.medium);
-    $img.attr('alt', 'profile picture');
-    $cardImgContainer.append($img);
+    const img = createElement('img', 'className', 'card-img');
+    img.src = person.picture.medium;
+    img.alt = 'profile picture';
+    cardImgContainer.appendChild(img);
 
-    const $cardInfoContainer = $('<div></div>');
-    $cardInfoContainer.addClass('card-info-container');
-    $cardDiv.append($cardInfoContainer);
+    const cardInfoContainer = createElement('div', 'className', 'card-info-container');
+    cardDiv.appendChild(cardInfoContainer);
 
-    const $h3_cardname = $('<h3></h3>');
-    $h3_cardname.attr('id', 'name');
-    $h3_cardname.addClass('card-name cap');
-    $h3_cardname.text(person.name.first + ' ' + person.name.last);
-    $cardInfoContainer.append($h3_cardname);
+    const h3_cardname = createElement('h3', 'className', 'card-name cap');
+    h3_cardname.id = 'name';
+    h3_cardname.textContent = person.name.first + ' ' + person.name.last;
+    cardInfoContainer.appendChild(h3_cardname);
 
-    const $p_email = $('<p></p>');
-    $p_email.addClass('card-text');
-    $p_email.text(person.email);
-    $cardInfoContainer.append($p_email);
+    const p_email = createElement('p', 'className', 'card-text');
+    p_email.textContent = person.email;
+    cardInfoContainer.appendChild(p_email);
 
-    const $p_location = $('<p></p>');
-    $p_location.addClass('card-text cap');
-    $p_location.text(person.location.city + ', ' + person.location.state);
-    $cardInfoContainer.append($p_location);
+    const p_location = createElement('p', 'className', 'card-text cap');
+    p_location.textContent = person.location.city + ', ' + person.location.state;
+    cardInfoContainer.appendChild(p_location);
   })
 }
 
@@ -125,10 +127,10 @@ function closeModal(){
 }
 
 /**
- * 
+ * Used JQUERY to implement this event handler 
  */
 $gallery.on('click', 'div.card', (e) => {
-  const currentIndex = globalArray[$(e.currentTarget).index()];
+  const currentIndex = arrayOfData[$(e.currentTarget).index()];
   
   $modalContainerDiv = $('<div></div>');
   $modalContainerDiv.addClass('modal-container');
@@ -210,37 +212,46 @@ $gallery.on('click', 'div.card', (e) => {
 /**
  * Search Functionality
  */
-const $searchBar = $('.search-container');
-const $form = $('<form></form>');
-$form.attr('action', '#');
-$searchBar.append($form);
-const $input = $('<input>');
-$input.attr('type', 'search');
-$input.attr('id', 'search-input');
-$input.addClass('search-input');
-$input.attr('placeholder', 'Search...');
-$form.append($input);
-const $inputBtn = $('<input>');
-$inputBtn.attr('type', 'submit');
-$inputBtn.val('Search');
-$inputBtn.attr('id', 'search-submit');
-$inputBtn.addClass('search-submit');
-$form.append($inputBtn);
+const searchBar = document.querySelector('.search-container');
+const form = createElement('form', 'action', '#');
+searchBar.appendChild(form);
+const input = createElement('input', 'className', 'search-input');
+input.type = 'search';
+input.id = 'search-input';
+input.placeholder = 'Search...';
+form.appendChild(input);
+const inputBtn = createElement('input', 'className', 'search-submit');
+inputBtn.type = 'submit';
+inputBtn.value = 'Search';
+inputBtn.id = 'search-submit';
+form.appendChild(inputBtn);
 
 
-const employeesFound = [];
-function searchDirectory(employees){
+
+/**
+ * 
+ * @param {Array} employees 
+ */
+
+function searchDirectory(employees) {
+  const employeesFound = [];
+  const gallery = document.querySelector('#gallery');
+  const cards = gallery.children;
   for (let i = 0; i < employees.length; i++) {
-    if ( employees[i].name.first.toLowerCase().includes($input.val().toLowerCase())|| employees[i].name.last.toLowerCase().includes($input.val().toLowerCase()) ) {
+    const cardInfo = cards[i].lastChild;
+    const h3 = cardInfo.firstChild;
+    if (h3.textContent.toLowerCase().includes(input.value.toLowerCase()) ) {
       employeesFound.push(employees[i]);
+      cards[i].style.display = 'flex';
     } else {
-      console.log('Not Found')
+      cards[i].style.display = 'none';
     }
   }
-  console.log(employeesFound.length)
 }
 
-
-$inputBtn.on('click', () => {
-  searchDirectory(cards);
+inputBtn.addEventListener('click', () => {
+  searchDirectory(arrayOfData);
+});
+input.addEventListener('keyup', () => {
+  searchDirectory(arrayOfData);
 });
