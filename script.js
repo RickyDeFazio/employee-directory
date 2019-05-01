@@ -225,18 +225,16 @@ $gallery.on('click', 'div.card', (e) => {
 }); // End Event Listener
 
 
-function cycleNext() {
-  
-}
-
 function cyclePrev() {
   
 }
 
 
-/**
- * Closes modal.
- */
+function cycleNext() {
+  
+}
+
+
 function closeModal(){
   $modalContainerDiv.remove();
 }
