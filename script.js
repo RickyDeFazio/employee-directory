@@ -119,15 +119,11 @@ function createCards(data){
   })
 }
 
-/**
- * Closes modal.
- */
-function closeModal(){
-  $modalContainerDiv.remove();
-}
+
+
 
 /**
- * Used JQUERY to implement this event handler 
+ * Used JQUERY to implement modal 
  */
 $gallery.on('click', 'div.card', (e) => {
   const currentIndex = arrayOfData[$(e.currentTarget).index()];
@@ -136,50 +132,50 @@ $gallery.on('click', 'div.card', (e) => {
   $modalContainerDiv.addClass('modal-container');
   $gallery.after($modalContainerDiv);
 
-  $modalDiv = $('<div></div>');
+  const $modalDiv = $('<div></div>');
   $modalDiv.addClass('modal');
   $modalContainerDiv.append($modalDiv);
 
-  $buttonModalClose = $('<button></button>');
+  const $buttonModalClose = $('<button></button>');
   $buttonModalClose.attr('type', 'button');
   $buttonModalClose.attr('id', 'modal-close-btn');
   $buttonModalClose.addClass('modal-close-btn');
   $modalDiv.append($buttonModalClose);
 
-  $strongTag = $('<strong></strong>');
+  const $strongTag = $('<strong></strong>');
   $strongTag.text('X');
   $buttonModalClose.append($strongTag);
 
-  $modalInfoDiv = $('<div></div>');
+  const $modalInfoDiv = $('<div></div>');
   $modalInfoDiv.addClass('modal-info-container');
   $modalDiv.append($modalInfoDiv);
 
-  $modalImg = $('<img>');
+  const $modalImg = $('<img>');
   $modalImg.addClass('modal-img');
   $modalImg.attr('src', currentIndex.picture.large);
   $modalImg.attr('alt', 'profile picture');
   $modalInfoDiv.append($modalImg);
 
-  $h3_modalName = $('<h3></h3>');
+  const $h3_modalName = $('<h3></h3>');
   $h3_modalName.attr('id', 'name');
   $h3_modalName.addClass('modal-name cap');
   $h3_modalName.text(currentIndex.name.first + ' ' + currentIndex.name.last);
   $modalInfoDiv.append($h3_modalName);
 
-  $p_email = $('<p></p>');
+  const $p_email = $('<p></p>');
   $p_email.addClass('modal-text');
   $p_email.text(currentIndex.email);
   $modalInfoDiv.append($p_email);
 
-  $p_city = $('<p></p>');
+  const $p_city = $('<p></p>');
   $p_city.addClass('modal-text cap');
   $p_city.text(currentIndex.location.city);
   $modalInfoDiv.append($p_city);
 
-  $hr = $('<hr>');
+  const $hr = $('<hr>');
   $modalInfoDiv.append($hr);
 
-  $p_phone = $('<p></p>');
+  const $p_phone = $('<p></p>');
   $p_phone.addClass('modal-text');
   if (isValidCell(currentIndex.cell)){
     $p_phone.text(formatCell(currentIndex.cell));
@@ -188,12 +184,12 @@ $gallery.on('click', 'div.card', (e) => {
   }
   $modalInfoDiv.append($p_phone);
 
-  $p_address = $('<p></p>');
+  const $p_address = $('<p></p>');
   $p_address.addClass('modal-text cap');
   $p_address.html(currentIndex.location.street + '.,<br>' + currentIndex.location.city + ', ' + currentIndex.location.state + ' ' + currentIndex.location.postcode);
   $modalInfoDiv.append($p_address);
 
-  $p_birthday = $('<p></p>');
+  const $p_birthday = $('<p></p>');
   $p_birthday.addClass('modal-text');
   if (isValidDOB(currentIndex.dob.date)) {
     $p_birthday.text("Birthday: " + formatDOB(currentIndex.dob.date));
@@ -203,11 +199,47 @@ $gallery.on('click', 'div.card', (e) => {
   
   $modalInfoDiv.append($p_birthday);
 
-  $modalCloseBtn = $('#modal-close-btn');
-  $modalCloseBtn.on('click', closeModal);
-  }); // End Event Listener
+  const $modalBtnContainer = $('<div></div>');
+  $modalBtnContainer.addClass('modal-btn-container');
+  $modalContainerDiv.append($modalBtnContainer);
+
+  const $modalPrev = $('<button></button>');
+  $modalPrev.attr('type', 'button');
+  $modalPrev.attr('id', 'modal-prev');
+  $modalPrev.addClass('modal-prev btn');
+  $modalPrev.text('Prev');
+  $modalBtnContainer.append($modalPrev);
+
+  const $modalNext = $('<button></button>');
+  $modalNext.attr('type', 'button');
+  $modalNext.attr('id', 'modal-next');
+  $modalNext.addClass('modal-next btn');
+  $modalNext.text('Next');
+  $modalBtnContainer.append($modalNext);
+
+  // Modal Button Handlers
+  $modalPrev.on('click', cyclePrev);
+  $modalNext.on('click', cycleNext);
+  $buttonModalClose.on('click', closeModal);
+
+}); // End Event Listener
 
 
+function cycleNext() {
+  
+}
+
+function cyclePrev() {
+  
+}
+
+
+/**
+ * Closes modal.
+ */
+function closeModal(){
+  $modalContainerDiv.remove();
+}
 
 /**
  * Search Functionality
