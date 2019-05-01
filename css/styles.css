@@ -21,6 +21,7 @@ body {
 
 header {
     padding: 15px 5px 5px;
+    background-color: rgba(68, 111, 139, 0.7);
 }
 
 .header-inner-container {
@@ -87,7 +88,7 @@ header h1 {
     max-width: 360px;
     margin: 10px 10px 20px;
     padding: 10px;
-    background: rgba(245, 245, 245, 0.9);
+    background: lightgray;
     border-radius: 0.25em;
     border: 1px solid rgba(50, 50, 50, 0.3);
     transition: .4s ease-out;

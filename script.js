@@ -1,6 +1,15 @@
+/*******************************
+ * Global Variables
+ ******************************/
+
 const gallery = document.querySelector('#gallery');
 const $gallery = $('#gallery');
 const arrayOfData = [];
+const searchBar = document.querySelector('.search-container');
+const form = createElement('form', 'action', '#');
+const input = createElement('input', 'className', 'search-input');
+const inputBtn = createElement('input', 'className', 'search-submit');
+
 
 
 /**
@@ -14,6 +23,7 @@ function fetchData(url) {
     .then(response => response.json())
     .catch(error => console.log(error));
 }
+
 
 
 /**
@@ -30,18 +40,22 @@ function checkStatus(response){
 }
 
 
+
 /**
  * Checks number to see if it is valid.
  * @param {string} number 
+ * returns boolean value.
  */
 function isValidCell(number) {
   return /^\D*\d{3}\D*\d{3}\D*\d{4}\D*$/.test(number);
 }
 
 
+
 /**
  * Reformats number to: (555) 555-5555
  * @param {string} number 
+ * Returns reformatted number as string.
  */
 function formatCell(number) {
   const expression = /^\D*(\d{3})\D*(\d{3})\D*(\d{4})\D*$/;
@@ -71,7 +85,11 @@ function formatDOB(date){
 }
 
 
-
+/**
+ * Fetches data from API using given URL
+ * Returns result and adds results to a global array
+ * Creates cards using createCards function.
+ */
 fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(data => data.results.forEach(result => {
     arrayOfData.push(result);
@@ -79,7 +97,13 @@ fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(resolve => createCards(arrayOfData));  
 
 
-
+/**
+ * Simplifies the creating element process.
+ * @param {string} elementName 
+ * @param {string} property 
+ * @param {string} value 
+ * Returns HTML element.
+ */
 function createElement(elementName, property, value) {
   const element = document.createElement(elementName);
   element[property] = value;
@@ -87,7 +111,10 @@ function createElement(elementName, property, value) {
 }
 
 
-
+/**
+ * Uses array of data to populate employee cards.
+ * @param {Array} data 
+ */
 function createCards(data){
   data.forEach(person => {
     const cardDiv = createElement('div', 'className', 'card');
@@ -119,6 +146,10 @@ function createCards(data){
   })
 }
 
+
+/*******************************
+ * Modal Feature
+ ******************************/
 
 
 
@@ -239,18 +270,22 @@ function closeModal(){
   $modalContainerDiv.remove();
 }
 
-/**
+
+
+/*******************************
  * Search Functionality
+ ******************************/
+
+
+
+/**
+ * Add searchbar to DOM
  */
-const searchBar = document.querySelector('.search-container');
-const form = createElement('form', 'action', '#');
 searchBar.appendChild(form);
-const input = createElement('input', 'className', 'search-input');
 input.type = 'search';
 input.id = 'search-input';
 input.placeholder = 'Search...';
 form.appendChild(input);
-const inputBtn = createElement('input', 'className', 'search-submit');
 inputBtn.type = 'submit';
 inputBtn.value = 'Search';
 inputBtn.id = 'search-submit';
@@ -259,10 +294,9 @@ form.appendChild(inputBtn);
 
 
 /**
- * 
+ * Searches directory for employees matching search
  * @param {Array} employees 
  */
-
 function searchDirectory(employees) {
   const employeesFound = [];
   const gallery = document.querySelector('#gallery');
@@ -279,6 +313,11 @@ function searchDirectory(employees) {
   }
 }
 
+
+
+/**
+ * Event Handlers for Search
+ */
 inputBtn.addEventListener('click', () => {
   searchDirectory(arrayOfData);
 });
