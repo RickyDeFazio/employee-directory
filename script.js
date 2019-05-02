@@ -253,17 +253,91 @@ $gallery.on('click', 'div.card', (e) => {
   $modalNext.on('click', cycleNext);
   $buttonModalClose.on('click', closeModal);
 
+  if (currentIndex[0] === 0) {
+    $modalPrev.hide();
+  } else if (currentIndex[0] === 11){
+    $modalNext.hide();
+  }
+
+  if (input.value.length > 0) {
+    $modalBtnContainer.hide();
+  } else {
+    $modalBtnContainer.show();
+  }
+
 }); // End Event Listener
 
-
+/**
+ * Changes to the previous employee in the directory.
+ */
 function cyclePrev() {
-  $modalImg.attr('src', arrayOfData[currentIndex-1].picture.large);
+  if (input.value.length === 0) {
+    $modalImg.attr('src', arrayOfData[currentIndex[0] - 1].picture.large);
+    
+    $h3_modalName.text(arrayOfData[currentIndex[0] - 1].name.first + ' ' + arrayOfData[currentIndex[0] - 1].name.last);
+
+    $p_email.text(arrayOfData[currentIndex[0] - 1].email);
+
+    $p_city.text(arrayOfData[currentIndex[0] - 1].location.city);
+
+    if (isValidCell(arrayOfData[currentIndex[0] - 1].cell)){
+      $p_phone.text(formatCell(arrayOfData[currentIndex[0] - 1].cell));
+    } else {
+      $p_phone.text("No Valid Number Given");
+    }
+
+    $p_address.html(arrayOfData[currentIndex[0] - 1].location.street + '.,<br>' + arrayOfData[currentIndex[0] - 1].location.city + ', ' + arrayOfData[currentIndex[0] - 1].location.state + ' ' + arrayOfData[currentIndex[0] - 1].location.postcode);
+
+    if (isValidDOB(arrayOfData[currentIndex[0] - 1].dob.date)) {
+      $p_birthday.text("Birthday: " + formatDOB(arrayOfData[currentIndex[0] - 1].dob.date));
+    } else {
+      $p_birthday.text("No Valid Birthday Given");
+    }
+
+    currentIndex[0] = currentIndex[0] - 1;
+    $modalNext.show();
+    if (currentIndex[0] === 0){
+      $modalPrev.hide();
+    }
+  }
 }
 
-
+/**
+ * Changes to the next employee in the directory.
+ */
 function cycleNext() {
-  nextEmployee = arrayOfData[currentIndex+1];
-  $modalImg.attr('src', nextEmployee.picture.large);
+  if (input.value.length === 0) {
+    $modalBtnContainer.show();
+    $modalImg.attr('src', arrayOfData[currentIndex[0] + 1].picture.large);
+    
+    $h3_modalName.text(arrayOfData[currentIndex[0] + 1].name.first + ' ' + arrayOfData[currentIndex[0] + 1].name.last);
+    
+    $p_email.text(arrayOfData[currentIndex[0] + 1].email);
+    
+    $p_city.text(arrayOfData[currentIndex[0] + 1].location.city);
+
+    if (isValidCell(arrayOfData[currentIndex[0] + 1].cell)){
+      $p_phone.text(formatCell(arrayOfData[currentIndex[0] + 1].cell));
+    } else {
+      $p_phone.text("No Valid Number Given");
+    }
+
+    $p_address.html(arrayOfData[currentIndex[0] + 1].location.street + '.,<br>' + arrayOfData[currentIndex[0] + 1].location.city + ', ' + arrayOfData[currentIndex[0] + 1].location.state + ' ' + arrayOfData[currentIndex[0] + 1].location.postcode);
+
+    if (isValidDOB(arrayOfData[currentIndex[0] + 1].dob.date)) {
+      $p_birthday.text("Birthday: " + formatDOB(arrayOfData[currentIndex[0] + 1].dob.date));
+    } else {
+      $p_birthday.text("No Valid Birthday Given");
+    }
+
+    currentIndex[0] = currentIndex[0] + 1;
+    $modalPrev.show();
+    if (currentIndex[0] === 11){
+      $modalNext.hide();
+    }
+  } else {
+    $modalBtnContainer.hide();
+  }
 }
 
 
@@ -287,10 +361,10 @@ input.type = 'search';
 input.id = 'search-input';
 input.placeholder = 'Search...';
 form.appendChild(input);
-inputBtn.type = 'submit';
-inputBtn.value = 'Search';
-inputBtn.id = 'search-submit';
-form.appendChild(inputBtn);
+// inputBtn.type = 'submit';
+// inputBtn.value = 'Search';
+// inputBtn.id = 'search-submit';
+// form.appendChild(inputBtn);
 
 
 
@@ -299,14 +373,14 @@ form.appendChild(inputBtn);
  * @param {Array} employees 
  */
 function searchDirectory(employees) {
-  const employeesFound = [];
+  // const employeesFound = [];
   const gallery = document.querySelector('#gallery');
   const cards = gallery.children;
   for (let i = 0; i < employees.length; i++) {
     const cardInfo = cards[i].lastChild;
     const h3 = cardInfo.firstChild;
     if (h3.textContent.toLowerCase().includes(input.value.toLowerCase()) ) {
-      employeesFound.push(employees[i]);
+      // employeesFound.push(employees[i]);
       cards[i].style.display = 'flex';
     } else {
       cards[i].style.display = 'none';
@@ -319,9 +393,12 @@ function searchDirectory(employees) {
 /**
  * Event Handlers for Search
  */
-inputBtn.addEventListener('click', () => {
+// inputBtn.addEventListener('click', () => {
+//   searchDirectory(arrayOfData);
+// });
+input.addEventListener('keyup', () => {
   searchDirectory(arrayOfData);
 });
-input.addEventListener('keyup', () => {
+input.addEventListener('change', () => {
   searchDirectory(arrayOfData);
 });
