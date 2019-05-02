@@ -7,5 +7,5 @@ Utilized the fetch API, JQUERY & Vanilla JS to build an employee directory.
 2. Changed background-color of cards.
 3. Changed background-color of heading.
 4. Changed background-color of modal buttons.
-5. Remove submit button on search bar for more intuitive design using key presses.
+5. Removed submit button on search bar for more intuitive design using key presses.
 6. Removed cancel button from search bar.
