@@ -206,8 +206,14 @@ header h1 {
     border-radius: 0.35em;
     transition: .4s ease-out;
     outline: none;
-  }
+}
   
+#modal-prev,
+#modal-next {
+    background-color: rgba(68, 111, 139, 0.7);;
+}
+
+
 
 /* ===================================== 
    Media Queries
