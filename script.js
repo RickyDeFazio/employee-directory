@@ -25,6 +25,16 @@ function fetchData(url) {
 }
 
 
+// Practice refactoring with async/await
+// async function fetchData(url) {
+//   try {
+//     const response = await fetch(url);
+//     await checkStatus(response);
+//     return await response.json();
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 /**
  * Evaluates response to determine if there are any errors
