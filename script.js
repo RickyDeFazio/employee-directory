@@ -220,7 +220,6 @@ $gallery.on('click', 'div.card', (e) => {
   $p_address.html(selectedEmployee.location.street.number + ' ' + selectedEmployee.location.street.name + '.,<br>' + selectedEmployee.location.city + ', ' + selectedEmployee.location.state + ' ' + selectedEmployee.location.postcode);
   $modalInfoDiv.append($p_address);
 
-  console.log(selectedEmployee)
   $p_birthday = $('<p></p>');
   $p_birthday.addClass('modal-text');
   if (isValidDOB(selectedEmployee.dob.date)) {
@@ -272,30 +271,35 @@ $gallery.on('click', 'div.card', (e) => {
  * Changes to the previous employee in the directory.
  */
 function cyclePrev() {
+
+  let picture = arrayOfData[currentIndex[0] - 1].picture.large;
+  let { first, last } = arrayOfData[currentIndex[0] - 1].name;
+  let { email, cell } = arrayOfData[currentIndex[0] - 1];
+  let { city, state, postcode } = arrayOfData[currentIndex[0] - 1].location;
+  let { number, name } = arrayOfData[currentIndex[0] - 1].location.street;
+  let date = arrayOfData[currentIndex[0] - 1].dob.date;
+
   if (input.value.length === 0) {
-    $modalImg.attr('src', arrayOfData[currentIndex[0] - 1].picture.large);
-    
-    $h3_modalName.text(arrayOfData[currentIndex[0] - 1].name.first + ' ' + arrayOfData[currentIndex[0] - 1].name.last);
+    $modalImg.attr('src', picture);
+    $h3_modalName.text(`${first} ${last}`);
+    $p_email.text(email);
+    $p_city.text(city);
 
-    $p_email.text(arrayOfData[currentIndex[0] - 1].email);
-
-    $p_city.text(arrayOfData[currentIndex[0] - 1].location.city);
-
-    if (isValidCell(arrayOfData[currentIndex[0] - 1].cell)){
-      $p_phone.text(formatCell(arrayOfData[currentIndex[0] - 1].cell));
+    if (isValidCell(cell)){
+      $p_phone.text(formatCell(cell));
     } else {
       $p_phone.text("No Valid Number Given");
     }
 
-    $p_address.html(arrayOfData[currentIndex[0] - 1].location.street.number + ' ' + arrayOfData[currentIndex[0] - 1].location.street.name + '.,<br>' + arrayOfData[currentIndex[0] - 1].location.city + ', ' + arrayOfData[currentIndex[0] - 1].location.state + ' ' + arrayOfData[currentIndex[0] - 1].location.postcode);
+    $p_address.html(`${number} ${name}.,<br> ${city}, ${state} ${postcode}`);
 
-    if (isValidDOB(arrayOfData[currentIndex[0] - 1].dob.date)) {
-      $p_birthday.text("Birthday: " + formatDOB(arrayOfData[currentIndex[0] - 1].dob.date));
+    if (isValidDOB(date)) {
+      $p_birthday.text("Birthday: " + formatDOB(date));
     } else {
       $p_birthday.text("No Valid Birthday Given");
     }
 
-    currentIndex[0] = currentIndex[0] - 1;
+    currentIndex[0] = currentIndex[0] - 1; // reset currentIndex
     $modalNext.show();
     if (currentIndex[0] === 0){
       $modalPrev.hide();
@@ -307,31 +311,36 @@ function cyclePrev() {
  * Changes to the next employee in the directory.
  */
 function cycleNext() {
+
+  let { number, name } = arrayOfData[currentIndex[0] + 1].location.street;
+  let { postcode, state, city } = arrayOfData[currentIndex[0] + 1].location;
+  let picture = arrayOfData[currentIndex[0] + 1].picture.large;
+  let { first, last } = arrayOfData[currentIndex[0] + 1].name;
+  let { email, cell } = arrayOfData[currentIndex[0] + 1];
+  let date = arrayOfData[currentIndex[0] + 1].dob.date;
+
   if (input.value.length === 0) {
     $modalBtnContainer.show();
-    $modalImg.attr('src', arrayOfData[currentIndex[0] + 1].picture.large);
-    
-    $h3_modalName.text(arrayOfData[currentIndex[0] + 1].name.first + ' ' + arrayOfData[currentIndex[0] + 1].name.last);
-    
-    $p_email.text(arrayOfData[currentIndex[0] + 1].email);
-    
-    $p_city.text(arrayOfData[currentIndex[0] + 1].location.city);
+    $modalImg.attr('src', picture);
+    $h3_modalName.text(`${first} ${last}`);
+    $p_email.text(email);
+    $p_city.text(city);
 
-    if (isValidCell(arrayOfData[currentIndex[0] + 1].cell)){
-      $p_phone.text(formatCell(arrayOfData[currentIndex[0] + 1].cell));
+    if (isValidCell(cell)){
+      $p_phone.text(formatCell(cell));
     } else {
       $p_phone.text("No Valid Number Given");
     }
 
-    $p_address.html(arrayOfData[currentIndex[0] - 1].location.street.number + ' ' + arrayOfData[currentIndex[0] - 1].location.street.name + '.,<br>' + arrayOfData[currentIndex[0] + 1].location.city + ', ' + arrayOfData[currentIndex[0] + 1].location.state + ' ' + arrayOfData[currentIndex[0] + 1].location.postcode);
+    $p_address.html(`${number} ${name}., <br> ${city}, ${state} ${postcode}`);
 
-    if (isValidDOB(arrayOfData[currentIndex[0] + 1].dob.date)) {
-      $p_birthday.text("Birthday: " + formatDOB(arrayOfData[currentIndex[0] + 1].dob.date));
+    if (isValidDOB(date)) {
+      $p_birthday.text("Birthday: " + formatDOB(date));
     } else {
       $p_birthday.text("No Valid Birthday Given");
     }
 
-    currentIndex[0] = currentIndex[0] + 1;
+    currentIndex[0] = currentIndex[0] + 1; // reset currentIndex
     $modalPrev.show();
     if (currentIndex[0] === 11){
       $modalNext.hide();
