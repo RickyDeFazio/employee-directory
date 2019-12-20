@@ -25,16 +25,6 @@ function fetchData(url) {
 }
 
 
-// Practice refactoring with async/await
-// async function fetchData(url) {
-//   try {
-//     const response = await fetch(url);
-//     await checkStatus(response);
-//     return await response.json();
-//   } catch (error) {
-//     throw error;
-//   }
-// }
 
 /**
  * Evaluates response to determine if there are any errors
@@ -227,9 +217,10 @@ $gallery.on('click', 'div.card', (e) => {
 
   $p_address = $('<p></p>');
   $p_address.addClass('modal-text cap');
-  $p_address.html(selectedEmployee.location.street + '.,<br>' + selectedEmployee.location.city + ', ' + selectedEmployee.location.state + ' ' + selectedEmployee.location.postcode);
+  $p_address.html(selectedEmployee.location.street.number + ' ' + selectedEmployee.location.street.name + '.,<br>' + selectedEmployee.location.city + ', ' + selectedEmployee.location.state + ' ' + selectedEmployee.location.postcode);
   $modalInfoDiv.append($p_address);
 
+  console.log(selectedEmployee)
   $p_birthday = $('<p></p>');
   $p_birthday.addClass('modal-text');
   if (isValidDOB(selectedEmployee.dob.date)) {
@@ -296,7 +287,7 @@ function cyclePrev() {
       $p_phone.text("No Valid Number Given");
     }
 
-    $p_address.html(arrayOfData[currentIndex[0] - 1].location.street + '.,<br>' + arrayOfData[currentIndex[0] - 1].location.city + ', ' + arrayOfData[currentIndex[0] - 1].location.state + ' ' + arrayOfData[currentIndex[0] - 1].location.postcode);
+    $p_address.html(arrayOfData[currentIndex[0] - 1].location.street.number + ' ' + arrayOfData[currentIndex[0] - 1].location.street.name + '.,<br>' + arrayOfData[currentIndex[0] - 1].location.city + ', ' + arrayOfData[currentIndex[0] - 1].location.state + ' ' + arrayOfData[currentIndex[0] - 1].location.postcode);
 
     if (isValidDOB(arrayOfData[currentIndex[0] - 1].dob.date)) {
       $p_birthday.text("Birthday: " + formatDOB(arrayOfData[currentIndex[0] - 1].dob.date));
@@ -332,7 +323,7 @@ function cycleNext() {
       $p_phone.text("No Valid Number Given");
     }
 
-    $p_address.html(arrayOfData[currentIndex[0] + 1].location.street + '.,<br>' + arrayOfData[currentIndex[0] + 1].location.city + ', ' + arrayOfData[currentIndex[0] + 1].location.state + ' ' + arrayOfData[currentIndex[0] + 1].location.postcode);
+    $p_address.html(arrayOfData[currentIndex[0] - 1].location.street.number + ' ' + arrayOfData[currentIndex[0] - 1].location.street.name + '.,<br>' + arrayOfData[currentIndex[0] + 1].location.city + ', ' + arrayOfData[currentIndex[0] + 1].location.state + ' ' + arrayOfData[currentIndex[0] + 1].location.postcode);
 
     if (isValidDOB(arrayOfData[currentIndex[0] + 1].dob.date)) {
       $p_birthday.text("Birthday: " + formatDOB(arrayOfData[currentIndex[0] + 1].dob.date));
