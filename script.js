@@ -14,7 +14,7 @@ const inputBtn = createElement('input', 'className', 'search-submit');
 
 /**
  * Universal Fetch & Parse Function for Data
- * @param {string} url 
+ * @param {string} url
  * Returns a promise.
  */
 function fetchData(url) {
@@ -28,7 +28,7 @@ function fetchData(url) {
 
 /**
  * Evaluates response to determine if there are any errors
- * @param {promise} response 
+ * @param {promise} response
  * Returns a promise.
  */
 function checkStatus(response){
@@ -43,7 +43,7 @@ function checkStatus(response){
 
 /**
  * Checks number to see if it is valid.
- * @param {string} number 
+ * @param {string} number
  * returns boolean value.
  */
 function isValidCell(number) {
@@ -54,7 +54,7 @@ function isValidCell(number) {
 
 /**
  * Reformats number to: (555) 555-5555
- * @param {string} number 
+ * @param {string} number
  * Returns reformatted number as string.
  */
 function formatCell(number) {
@@ -65,7 +65,7 @@ function formatCell(number) {
 
 /**
  * Checks date to see if it is valid.
- * @param {string} date 
+ * @param {string} date
  */
 function isValidDOB(date){
   return /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(date);
@@ -74,7 +74,7 @@ function isValidDOB(date){
 
 /**
  * Reformats date to: month/day/year
- * @param {string} date 
+ * @param {string} date
  */
 function formatDOB(date){
   const expression = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])).*/;
@@ -94,14 +94,14 @@ fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(data => data.results.forEach(result => {
     arrayOfData.push(result);
   }))
-  .then(resolve => createCards(arrayOfData));  
+  .then(resolve => createCards(arrayOfData));
 
 
 /**
  * Simplifies the creating element process.
- * @param {string} elementName 
- * @param {string} property 
- * @param {string} value 
+ * @param {string} elementName
+ * @param {string} property
+ * @param {string} value
  * Returns HTML element.
  */
 function createElement(elementName, property, value) {
@@ -113,7 +113,7 @@ function createElement(elementName, property, value) {
 
 /**
  * Uses array of data to populate employee cards.
- * @param {Array} data 
+ * @param {Array} data
  */
 function createCards(data){
   data.forEach(person => {
@@ -154,11 +154,11 @@ function createCards(data){
 
 
 /**
- * Used JQUERY to implement modal 
+ * Used JQUERY to implement modal
  */
 $gallery.on('click', 'div.card', (e) => {
   currentIndex = [$(e.currentTarget).index()];
-  selectedEmployee = arrayOfData[currentIndex];  
+  selectedEmployee = arrayOfData[currentIndex];
   $modalContainerDiv = $('<div></div>');
   $modalContainerDiv.addClass('modal-container');
   $gallery.after($modalContainerDiv);
@@ -227,7 +227,7 @@ $gallery.on('click', 'div.card', (e) => {
   } else {
     $p_birthday.text("No Valid Birthday Given");
   }
-  
+
   $modalInfoDiv.append($p_birthday);
 
   $modalBtnContainer = $('<div></div>');
@@ -371,16 +371,12 @@ input.type = 'search';
 input.id = 'search-input';
 input.placeholder = 'Search...';
 form.appendChild(input);
-// inputBtn.type = 'submit';
-// inputBtn.value = 'Search';
-// inputBtn.id = 'search-submit';
-// form.appendChild(inputBtn);
 
 
 
 /**
  * Searches directory for employees matching search
- * @param {Array} employees 
+ * @param {Array} employees
  */
 function searchDirectory(employees) {
   // const employeesFound = [];
@@ -400,12 +396,7 @@ function searchDirectory(employees) {
 
 
 
-/**
- * Event Handlers for Search
- */
-// inputBtn.addEventListener('click', () => {
-//   searchDirectory(arrayOfData);
-// });
+// Event Handlers
 input.addEventListener('keyup', () => {
   searchDirectory(arrayOfData);
 });
