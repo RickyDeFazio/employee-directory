@@ -1,6 +1,4 @@
-/*******************************
- * Global Variables
- ******************************/
+// Global Variables
 
 const gallery = document.querySelector('#gallery');
 const $gallery = $('#gallery');
@@ -9,8 +7,6 @@ const searchBar = document.querySelector('.search-container');
 const form = createElement('form', 'action', '#');
 const input = createElement('input', 'className', 'search-input');
 const inputBtn = createElement('input', 'className', 'search-submit');
-
-
 
 /**
  * Universal Fetch & Parse Function for Data
@@ -23,8 +19,6 @@ function fetchData(url) {
     .then(response => response.json())
     .catch(error => console.log(error));
 }
-
-
 
 /**
  * Evaluates response to determine if there are any errors
@@ -39,8 +33,6 @@ function checkStatus(response){
   }
 }
 
-
-
 /**
  * Checks number to see if it is valid.
  * @param {string} number
@@ -49,8 +41,6 @@ function checkStatus(response){
 function isValidCell(number) {
   return /^\D*\d{3}\D*\d{3}\D*\d{4}\D*$/.test(number);
 }
-
-
 
 /**
  * Reformats number to: (555) 555-5555
@@ -71,7 +61,6 @@ function isValidDOB(date){
   return /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(date);
 }
 
-
 /**
  * Reformats date to: month/day/year
  * @param {string} date
@@ -84,7 +73,6 @@ function formatDOB(date){
   return finalDate;
 }
 
-
 /**
  * Fetches data from API using given URL
  * Returns result and adds results to a global array
@@ -94,7 +82,7 @@ fetchData('https://randomuser.me/api/?nat=us&results=12')
   .then(data => data.results.forEach(result => {
     arrayOfData.push(result);
   }))
-  .then(resolve => createCards(arrayOfData));
+  .then(() => createCards(arrayOfData));
 
 
 /**
@@ -145,13 +133,6 @@ function createCards(data){
     cardInfoContainer.appendChild(p_location);
   })
 }
-
-
-/*******************************
- * Modal Feature
- ******************************/
-
-
 
 /**
  * Used JQUERY to implement modal
@@ -350,18 +331,9 @@ function cycleNext() {
   }
 }
 
-
 function closeModal(){
   $modalContainerDiv.remove();
 }
-
-
-
-/*******************************
- * Search Functionality
- ******************************/
-
-
 
 /**
  * Add searchbar to DOM
@@ -371,8 +343,6 @@ input.type = 'search';
 input.id = 'search-input';
 input.placeholder = 'Search...';
 form.appendChild(input);
-
-
 
 /**
  * Searches directory for employees matching search
@@ -393,8 +363,6 @@ function searchDirectory(employees) {
     }
   }
 }
-
-
 
 // Event Handlers
 input.addEventListener('keyup', () => {
