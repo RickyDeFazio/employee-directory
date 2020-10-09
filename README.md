@@ -6,5 +6,5 @@
 
 ## TODO
 
-- [ ] Refactor entire project with an emphasis on clean code
-- [ ] Replace jQuery instances with JS or ONLY use jQuery for consistency
+- [x] Remove jQuery
+- [ ] Rebuild modal to view employee details using Bootstrap
