@@ -51,7 +51,7 @@ function createCards(data) {
 
     const h3_cardname = createElement('h3', 'className', 'card-name cap');
     h3_cardname.id = 'name';
-    h3_cardname.textContent = person.name.first + ' ' + person.name.last;
+    h3_cardname.textContent = `${ person.name.first } ${ person.name.last }`;
     cardInfoContainer.appendChild(h3_cardname);
 
     const p_email = createElement('p', 'className', 'card-text');
@@ -59,7 +59,7 @@ function createCards(data) {
     cardInfoContainer.appendChild(p_email);
 
     const p_location = createElement('p', 'className', 'card-text cap');
-    p_location.textContent = person.location.city + ', ' + person.location.state;
+    p_location.textContent = `${ person.location.city }, ${ person.location.state }`;
     cardInfoContainer.appendChild(p_location);
   })
 }
@@ -72,7 +72,7 @@ function searchDirectory(employees) {
   const gallery = document.querySelector('#gallery');
   const cards = gallery.children;
 
-  for (let i = 0; i < employees.length; i++) {
+  employees.forEach((employee, i) => {
     const cardInfo = cards[i].lastChild;
     const h3 = cardInfo.firstChild;
 
@@ -81,7 +81,7 @@ function searchDirectory(employees) {
     } else {
       cards[i].style.display = 'none';
     }
-  }
+  })
 }
 
 // Event Handlers
