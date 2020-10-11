@@ -75,12 +75,9 @@ function searchDirectory(employees) {
   employees.forEach((employee, i) => {
     const cardInfo = cards[i].lastChild;
     const h3 = cardInfo.firstChild;
+    const content = h3.textContent.toLowerCase();
 
-    if (h3.textContent.toLowerCase().includes(input.value.toLowerCase())) {
-      cards[i].style.display = 'flex';
-    } else {
-      cards[i].style.display = 'none';
-    }
+    cards[i].style.display = (content.includes(input.value.toLowerCase())) ? 'flex' : 'none';
   })
 }
 
