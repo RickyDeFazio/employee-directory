@@ -14,18 +14,20 @@ const searchBar = document.querySelector('.search-container');
 const form = createElement('form', 'action', '#');
 const input = createElement('input', 'className', 'search-input');
 
-/**
- * Fetches data from API using given URL
- * Returns result and adds results to a global array
- * Creates cards using createCards function.
- */
-fetchData('https://randomuser.me/api/?nat=us&results=12')
-  .then(data => data.results.forEach(result => {
-    arrayOfData.push(result);
-  }))
-  .then(() => createCards(arrayOfData))
-  .catch(error => console.error(error));
+function main() {
+  fetchData('https://randomuser.me/api/?nat=us&results=12')
+    .then(data => data.results.forEach(result => {
+      arrayOfData.push(result);
+    }))
+    .then(() => createCards(arrayOfData))
+    .catch(error => console.error(error));
 
+  searchBar.appendChild(form);
+  input.type = 'search';
+  input.id = 'search-input';
+  input.placeholder = 'Search...';
+  form.appendChild(input);
+}
 
 /**
  * Uses array of data to populate employee cards.
@@ -63,24 +65,17 @@ function createCards(data) {
 }
 
 /**
- * Add searchbar to DOM
- */
-searchBar.appendChild(form);
-input.type = 'search';
-input.id = 'search-input';
-input.placeholder = 'Search...';
-form.appendChild(input);
-
-/**
  * Searches directory for employees matching search
  * @param {Array} employees
  */
 function searchDirectory(employees) {
   const gallery = document.querySelector('#gallery');
   const cards = gallery.children;
+
   for (let i = 0; i < employees.length; i++) {
     const cardInfo = cards[i].lastChild;
     const h3 = cardInfo.firstChild;
+
     if (h3.textContent.toLowerCase().includes(input.value.toLowerCase())) {
       cards[i].style.display = 'flex';
     } else {
@@ -93,6 +88,9 @@ function searchDirectory(employees) {
 input.addEventListener('keyup', () => {
   searchDirectory(arrayOfData);
 });
+
 input.addEventListener('change', () => {
   searchDirectory(arrayOfData);
 });
+
+window.onload = main;
