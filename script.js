@@ -77,7 +77,7 @@ function searchDirectory(employees) {
     const h3 = cardInfo.firstChild;
     const content = h3.textContent.toLowerCase();
 
-    cards[i].style.display = (content.includes(input.value.toLowerCase())) ? 'flex' : 'none';
+    cards[i].style.display = content.includes(input.value.toLowerCase()) ? 'flex' : 'none';
   })
 }
 
