@@ -32,7 +32,6 @@ export function isValidCell(number) {
   return /^\D*\d{3}\D*\d{3}\D*\d{4}\D*$/.test(number);
 }
 
-
 /**
  * Reformats number to: (555) 555-5555
  * @param {string} number
